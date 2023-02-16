@@ -16,10 +16,10 @@
                             id="password">
                     </div>
 
-                    <div class="form-group mb-2">
+                    <%-- <div class="form-group mb-2">
                         <input type="password" class="form-control" placeholder="Enter passwordCheck"
                             id="passwordCheck">
-                    </div>
+                    </div> --%>
 
                     <div class="form-group mb-2">
                         <input type="email" name="email" class="form-control" placeholder="Enter email" id="email">
@@ -31,10 +31,10 @@
             </div>
         </div>
 
-        <script>
+        <%-- <script>
             function valid() {
                 alert("회원가입 유효성 검사");
             }
-        </script>
+        </script> --%>
 
         <%@ include file="../layout/footer.jsp" %>
