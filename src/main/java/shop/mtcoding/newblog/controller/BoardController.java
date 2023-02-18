@@ -4,13 +4,18 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import shop.mtcoding.newblog.dto.ResponseDto;
 import shop.mtcoding.newblog.dto.board.BoardReq.BoardSaveReqDto;
+import shop.mtcoding.newblog.handler.ex.CustomApiException;
 import shop.mtcoding.newblog.handler.ex.CustomException;
 import shop.mtcoding.newblog.model.BoardRepository;
 import shop.mtcoding.newblog.model.User;
@@ -27,6 +32,16 @@ public class BoardController {
 
     @Autowired
     private BoardRepository boardRepository;
+
+    @DeleteMapping("/board/{id}")
+    public @ResponseBody ResponseEntity<?> delete(@PathVariable int id) {
+        User principal = (User) session.getAttribute("principal");
+        if (principal == null) {
+            throw new CustomApiException("인증이 되지 않았습니다.", HttpStatus.UNAUTHORIZED);
+        }
+        boardService.게시글삭제(id, principal.getId());
+        return new ResponseEntity<>(new ResponseDto<>(1, "삭제성공", null), HttpStatus.OK);
+    }
 
     @PostMapping("/board")
     public String save(BoardSaveReqDto BoardSaveReqDto) {
@@ -57,7 +72,8 @@ public class BoardController {
     }
 
     @GetMapping("/board/{id}")
-    public String detail(@PathVariable int id) {
+    public String detail(@PathVariable int id, Model model) {
+        model.addAttribute("dto", boardRepository.findByIdWithUser(id));
         return "board/detail";
     }
 
