@@ -14,4 +14,11 @@ INSERT INTO board_tb(title, content, thumbnail, user_id, created_at)
 INSERT INTO board_tb(title, content, thumbnail, user_id, created_at)
  values('6번째 제목', '6번째 내용','/images/asd.jpg' , 2, now());
 
+
+
+
+INSERT INTO reply_tb(comment, user_id, board_id, created_at) values('댓글1', 1, 1, now());
+INSERT INTO reply_tb(comment, user_id, board_id, created_at) values('댓글2', 1, 2, now());
+INSERT INTO reply_tb(comment, user_id, board_id, created_at) values('댓글3', 2, 1, now());
+INSERT INTO reply_tb(comment, user_id, board_id, created_at) values('댓글4', 2, 2, now());
 commit;

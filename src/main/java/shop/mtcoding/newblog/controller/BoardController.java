@@ -23,6 +23,7 @@ import shop.mtcoding.newblog.handler.ex.CustomApiException;
 import shop.mtcoding.newblog.handler.ex.CustomException;
 import shop.mtcoding.newblog.model.Board;
 import shop.mtcoding.newblog.model.BoardRepository;
+import shop.mtcoding.newblog.model.ReplyRepository;
 import shop.mtcoding.newblog.model.User;
 import shop.mtcoding.newblog.service.BoardService;
 
@@ -37,6 +38,9 @@ public class BoardController {
 
     @Autowired
     private BoardRepository boardRepository;
+
+    @Autowired
+    private ReplyRepository replyRepository;
 
     @PutMapping("/board/{id}")
     public @ResponseBody ResponseEntity<?> update(@PathVariable int id,
@@ -98,6 +102,8 @@ public class BoardController {
     @GetMapping("/board/{id}")
     public String detail(@PathVariable int id, Model model) {
         model.addAttribute("dto", boardRepository.findByIdWithUser(id));
+        model.addAttribute("boardDto", boardRepository.findByIdWithUser(id));
+        model.addAttribute("replyDtos", replyRepository.findByBoardIdWithUser(id));
         return "board/detail";
     }
 
